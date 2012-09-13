@@ -285,14 +285,14 @@ FireGPG.GPGAccess = {
 	},
 
     /*
-       Function: getBaseArugments
+       Function: getBaseArguments
 
         Parameters:
             fromGpgAuth - _Optional_  use the GpgAuth's parameter to add verbosity to aquire the key and subkey ID when encrypting.
 
        Return the commons arguments for all GnuPG's commands
     */
-    getBaseArugments: function (fromGpgAuth) {
+    getBaseArguments: function (fromGpgAuth) {
         if (fromGpgAuth != undefined && fromGpgAuth == true) {
     		return this.getGPGBonusCommand()  + " --quiet --no-tty --verbose --status-fd 2 --armor --batch" + this.getGPGAgentArgument();
 		}
@@ -453,7 +453,7 @@ FireGPG.GPGAccess = {
 
             if (FireGPG.isGpgAgentActivated()) {
 
-                result = this.runGnupg(this.getBaseArugments() +
+                result = this.runGnupg(this.getBaseArguments() +
                         " --default-key " + keyID +
                         " --output -" +
                         this.getGPGCommentArgument() +
@@ -463,7 +463,7 @@ FireGPG.GPGAccess = {
 
             } else {
 
-                result = this.runGnupg(this.getBaseArugments() +
+                result = this.runGnupg(this.getBaseArguments() +
                         " --default-key " + keyID +
                         " --output -" +
                         " --passphrase-fd 0 " +
@@ -477,7 +477,7 @@ FireGPG.GPGAccess = {
         } else {
                 if (FireGPG.isGpgAgentActivated()) {
 
-                result = this.runGnupg(this.getBaseArugments() +
+                result = this.runGnupg(this.getBaseArguments() +
                         " --default-key " + keyID +
                         " --output " + fileTo.replace(/\s/g, '{$SPACE}') +
                         this.getGPGCommentArgument() +
@@ -487,7 +487,7 @@ FireGPG.GPGAccess = {
 
             } else {
 
-                result = this.runGnupg(this.getBaseArugments() +
+                result = this.runGnupg(this.getBaseArguments() +
                         " --default-key " + keyID +
                         " --output " + fileTo.replace(/\s/g, '{$SPACE}') +
                         " --passphrase-fd 0 " +
@@ -529,7 +529,7 @@ FireGPG.GPGAccess = {
             text = fileDataForSign;
         }
 // always check validity  this.getGPGTrustArgument(undefined, fromDTA) 
-		var result = this.runGnupg(this.getBaseArugments() + " --verify" + (fileMode ? ' ' + fileSig.replace(/\s/g, '{$SPACE}') + ' ' + fileFrom.replace(/\s/g, '{$SPACE}') : ''), text, charset);
+		var result = this.runGnupg(this.getBaseArguments() + " --verify" + (fileMode ? ' ' + fileSig.replace(/\s/g, '{$SPACE}') + ' ' + fileFrom.replace(/\s/g, '{$SPACE}') : ''), text, charset);
         var result2 = new FireGPG.GPGReturn();
 		result2.sdOut = result.err;
 		// We return result
@@ -553,7 +553,7 @@ FireGPG.GPGAccess = {
 		if (onlyPrivate == true)
 			mode = "--list-secret-keys";
 
-		var result = this.runGnupg(this.getBaseArugments() + " --fixed-list-mode --fingerprint --with-colons " + mode,"","ISO-8859-1");
+		var result = this.runGnupg(this.getBaseArguments() + " --fixed-list-mode --fingerprint --with-colons " + mode,"","ISO-8859-1");
 
         var result2 = new FireGPG.GPGReturn();
 		result2.sdOut = result.out;
@@ -572,7 +572,7 @@ FireGPG.GPGAccess = {
     */
     listsigns: function(key) {
 
-		var result = this.runGnupg(this.getBaseArugments() + " --with-colons --list-sigs " + key,"","ISO-8859-1");
+		var result = this.runGnupg(this.getBaseArguments() + " --with-colons --list-sigs " + key,"","ISO-8859-1");
 
         var result2 = new FireGPG.GPGReturn();
 		result2.sdOut = result.out;
@@ -624,7 +624,7 @@ FireGPG.GPGAccess = {
 		for(var i = 0; i < keyIdList.length; i++)
 			keyIdListArgument += ((i > 0) ? ' ' : '') + '-r ' + keyIdList[i];
 
-		var result = this.runGnupg(this.getBaseArugments(fromGpgAuth) +  this.getGPGTrustArgument(fromGpgAuth) +
+		var result = this.runGnupg(this.getBaseArguments(fromGpgAuth) +  this.getGPGTrustArgument(fromGpgAuth) +
 				" " + keyIdListArgument +
 				this.getGPGCommentArgument() +
 				" --output " + outputFd +
@@ -684,14 +684,13 @@ FireGPG.GPGAccess = {
         }
 
 
-        var result = this.runGnupg(this.getBaseArugments() +  this.getGPGTrustArgument() +
+        var result = this.runGnupg(this.getBaseArguments() +  this.getGPGTrustArgument() +
         this.getGPGCommentArgument() +
-        " --passphrase-fd 0" +
+        "--passphrase-fd 0" +
         " --output " + outputFd +
         (algo != "" ? " --cipher-algo " + FireGPG.Misc.trim(algo) : "") +
         " --symmetric " + inputFd,
         password + "\n" + (!fileMode ? text : ''));
-
 
 		var result2 = new FireGPG.GPGReturn();
 		result2.output = result.out;
@@ -749,7 +748,7 @@ FireGPG.GPGAccess = {
 
         if (FireGPG.isGpgAgentActivated()) {
 
-            result = this.runGnupg(this.getBaseArugments() +  this.getGPGTrustArgument(fromGpgAuth) +
+            result = this.runGnupg(this.getBaseArguments() +  this.getGPGTrustArgument(fromGpgAuth) +
                     " " + keyIdListArgument +
                     this.getGPGCommentArgument() +
                     " --default-key " + keyID +
@@ -761,7 +760,7 @@ FireGPG.GPGAccess = {
 
         } else {
 
-            result = this.runGnupg(this.getBaseArugments() +  this.getGPGTrustArgument(fromGpgAuth) +
+            result = this.runGnupg(this.getBaseArguments() +  this.getGPGTrustArgument(fromGpgAuth) +
                     " " + keyIdListArgument +
                     this.getGPGCommentArgument() +
                     " --default-key " + keyID +
@@ -816,14 +815,14 @@ FireGPG.GPGAccess = {
 
         if (FireGPG.isGpgAgentActivated()) {
 
-            result = this.runGnupg(this.getBaseArugments() +
+            result = this.runGnupg(this.getBaseArguments() +
                     " --output " + outputFd +
                     " --decrypt " + inputFd
                 ,  (!fileMode ? text : ''),(binFileMode ? 'iso-8859-1' : undefined));
 
         } else {
 
-            result = this.runGnupg(this.getBaseArugments() +
+            result = this.runGnupg(this.getBaseArguments() +
                     " --passphrase-fd 0 " +
                     " --output " + outputFd +
                     " --decrypt " + inputFd
@@ -848,7 +847,7 @@ FireGPG.GPGAccess = {
     selfTest: function() {
         //One test is ok, if the command doesn't change, it's should works..
 
-		var result = this.runGnupg(this.getBaseArugments()  + " --version");
+		var result = this.runGnupg(this.getBaseArguments()  + " --version");
 
         try {
           //  alert(result.out);
@@ -873,7 +872,7 @@ FireGPG.GPGAccess = {
     */
     kimport: function(text) {
 
-		var result = this.runGnupg(this.getBaseArugments()  + " --import " , text);
+		var result = this.runGnupg(this.getBaseArguments()  + " --import " , text);
 
         var result2 = new FireGPG.GPGReturn();
 		result2.sdOut = result.err;
@@ -894,7 +893,7 @@ FireGPG.GPGAccess = {
 
     */
     kexport: function(key) {
-		var result = this.runGnupg(this.getBaseArugments()  + " --export " + key);
+		var result = this.runGnupg(this.getBaseArguments()  + " --export " + key);
 
         var result2 = new FireGPG.GPGReturn();
 		result2.sdOut = result.out;
@@ -915,7 +914,7 @@ FireGPG.GPGAccess = {
     */
     refrechFromServer: function(server) {
 
-        var result = this.runGnupg(this.getBaseArugments()  + " --keyserver " + server + this.getProxyInformation() + " --refresh-keys");
+        var result = this.runGnupg(this.getBaseArguments()  + " --keyserver " + server + this.getProxyInformation() + " --refresh-keys");
 
         var result2 = new FireGPG.GPGReturn();
 		result2.sdOut = result.err;
@@ -938,7 +937,7 @@ FireGPG.GPGAccess = {
     */
     sendKeyToServer: function(key, server) {
 
-        var result = this.runGnupg(this.getBaseArugments()  + " --keyserver " + server +  this.getProxyInformation() + " --send-keys "+ key);
+        var result = this.runGnupg(this.getBaseArguments()  + " --keyserver " + server +  this.getProxyInformation() + " --send-keys "+ key);
 
         var result2 = new FireGPG.GPGReturn();
 		result2.sdOut = result.err;
@@ -961,7 +960,7 @@ FireGPG.GPGAccess = {
     */
     retriveKeyFromServer: function(key, server) {
 
-        var result = this.runGnupg(this.getBaseArugments()  + " --keyserver " + server +  this.getProxyInformation() + " --recv-keys "+ key);
+        var result = this.runGnupg(this.getBaseArguments()  + " --keyserver " + server +  this.getProxyInformation() + " --recv-keys "+ key);
 
         var result2 = new FireGPG.GPGReturn();
 		result2.sdOut = result.err;
@@ -985,7 +984,7 @@ FireGPG.GPGAccess = {
     */
 	searchKeyInServer: function(search, server) {
 
-        var result = this.runGnupg(this.getBaseArugments()  + " --keyserver " + server +  this.getProxyInformation() + " --with-colons --search-keys "+ search);
+        var result = this.runGnupg(this.getBaseArguments()  + " --keyserver " + server +  this.getProxyInformation() + " --with-colons --search-keys "+ search);
 
         var result2 = new FireGPG.GPGReturn();
 		result2.sdOut = result.out;
@@ -1008,7 +1007,7 @@ FireGPG.GPGAccess = {
     */
     changeTrust: function(key, trustLevel){
 
-        var result = this.runGnupg(this.getBaseArugments()  + " --command-fd 0 --edit-key " + key + " trust", trustLevel + "\n");
+        var result = this.runGnupg(this.getBaseArguments()  + " --command-fd 0 --edit-key " + key + " trust", trustLevel + "\n");
 
         var result2 = new FireGPG.GPGReturn();
 		result2.sdOut = result.err;
@@ -1033,11 +1032,11 @@ FireGPG.GPGAccess = {
     */
     changePassword: function(key, oldpass, newpass){
 
-        var result = this.runGnupg(this.getBaseArugments()  + " --no-batch --command-fd 0  --edit-key " + key + " passwd" ,  oldpass + "\n");
+        var result = this.runGnupg(this.getBaseArguments()  + " --no-batch --command-fd 0  --edit-key " + key + " passwd" ,  oldpass + "\n");
 
         //Sécurité
         if (result.err.indexOf("BAD_PASSPHRASE") <= 0) {
-            result = this.runGnupg(this.getBaseArugments()  + " --no-batch --command-fd 0  --edit-key " + key + " passwd" ,   oldpass + "\n" + newpass + "\nsave\ny\n");
+            result = this.runGnupg(this.getBaseArguments()  + " --no-batch --command-fd 0  --edit-key " + key + " passwd" ,   oldpass + "\n" + newpass + "\nsave\ny\n");
         }
 
         var result2 = new FireGPG.GPGReturn();
@@ -1108,7 +1107,7 @@ FireGPG.GPGAccess = {
                 "%commit";
 
 
-        var result = this.runGnupg(this.getBaseArugments()  + " --gen-key", data + "\n");
+        var result = this.runGnupg(this.getBaseArguments()  + " --gen-key", data + "\n");
 
         var result2 = new FireGPG.GPGReturn();
 		result2.sdOut = result.err;
@@ -1131,7 +1130,7 @@ FireGPG.GPGAccess = {
     */
     deleteKey: function(key){
 
-        var result = this.runGnupg(this.getBaseArugments()  + " --delete-secret-and-public-key " + key);
+        var result = this.runGnupg(this.getBaseArguments()  + " --delete-secret-and-public-key " + key);
 
         var result2 = new FireGPG.GPGReturn();
 		result2.sdOut = result.err;
@@ -1159,7 +1158,7 @@ FireGPG.GPGAccess = {
         //uid         sélectionner le nom d'utilisateur N
         // deluid
 
-        var result = this.runGnupg(this.getBaseArugments()  + " --command-fd 0 --edit-key " + key + "", "uid " + uid + "\ndeluid\ny\nsave\ny");
+        var result = this.runGnupg(this.getBaseArguments()  + " --command-fd 0 --edit-key " + key + "", "uid " + uid + "\ndeluid\ny\nsave\ny");
 
         var result2 = new FireGPG.GPGReturn();
 		result2.sdOut = result.err;
@@ -1190,7 +1189,7 @@ FireGPG.GPGAccess = {
         // revuid
 
 
-        var result = this.runGnupg(this.getBaseArugments()  + " --no-batch --command-fd 0 --edit-key " + key + "", "uid " + uid + "\nrevuid\ny\n" + raison + "\n\ny\n" + password + "\nsave\ny");
+        var result = this.runGnupg(this.getBaseArguments()  + " --no-batch --command-fd 0 --edit-key " + key + "", "uid " + uid + "\nrevuid\ny\n" + raison + "\n\ny\n" + password + "\nsave\ny");
 
         var result2 = new FireGPG.GPGReturn();
 		result2.sdOut = result.err;
@@ -1219,7 +1218,7 @@ FireGPG.GPGAccess = {
     addUid: function(key, name, email, comment, password) {
 
 
-        var result = this.runGnupg(this.getBaseArugments()  + " --no-batch --command-fd 0 --edit-key " + key + " adduid", name + "\n" + email + "\n" +  comment + "\n" + password + "\nsave\ny");
+        var result = this.runGnupg(this.getBaseArguments()  + " --no-batch --command-fd 0 --edit-key " + key + " adduid", name + "\n" + email + "\n" +  comment + "\n" + password + "\nsave\ny");
 
         var result2 = new FireGPG.GPGReturn();
 		result2.sdOut = result.err;
@@ -1244,7 +1243,7 @@ FireGPG.GPGAccess = {
     */
     signKey: function(key, keyForSign, password) {
 
-        var result = this.runGnupg(this.getBaseArugments()  + " --no-batch --default-key " + keyForSign + " --command-fd 0 --sign-key " + key , "y\n" + password + "\n");
+        var result = this.runGnupg(this.getBaseArguments()  + " --no-batch --default-key " + keyForSign + " --command-fd 0 --sign-key " + key , "y\n" + password + "\n");
 
         var result2 = new FireGPG.GPGReturn();
 		result2.sdOut = result.err;
@@ -1278,7 +1277,7 @@ FireGPG.GPGAccess = {
     */
     revokeKey: function (key, password, raison) {
 
-        var result = this.runGnupg(this.getBaseArugments()  + " --no-batch --command-fd 0 --edit-key " + key + " revkey", "y\n" + raison + "\n\ny\n" + password + "\nsave\ny");
+        var result = this.runGnupg(this.getBaseArguments()  + " --no-batch --command-fd 0 --edit-key " + key + " revkey", "y\n" + raison + "\n\ny\n" + password + "\nsave\ny");
 
         var result2 = new FireGPG.GPGReturn();
 		result2.sdOut = result.err;
@@ -1303,7 +1302,7 @@ FireGPG.GPGAccess = {
     */
     computeHash: function(hash,file) {
 
-        var result = this.runGnupg(this.getBaseArugments()  + " --print-md " + hash + " " + file.replace(/\s/g, '{$SPACE}'), '');
+        var result = this.runGnupg(this.getBaseArguments()  + " --print-md " + hash + " " + file.replace(/\s/g, '{$SPACE}'), '');
 
         var result2 = new FireGPG.GPGReturn();
 		result2.sdOut = result.out;

@@ -70,7 +70,7 @@ function onLoad(win) {
         if (window.arguments[0].validSign != null) {
 
             document.getElementById('dcryptsignresult').style.display = '';
-            document.getElementById('dcryptsignresult').value = document.getElementById("firegpg-strings").getString("validSignInCrypt") + " " + window.arguments[0].validSign;
+            document.getElementById('dcryptsignresult').textContent = document.getElementById("firegpg-strings").getString("validSignInCrypt") + " " + window.arguments[0].validSign;
         }
 
 }

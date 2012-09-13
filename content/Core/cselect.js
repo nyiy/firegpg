@@ -233,50 +233,5 @@ FireGPG.Selection = {
 			return false;
 
 		return true; //If it's ok !
-	},
-
-    /*
-    Function: set
-    Modify the selection, or show a dialog with the text if it's not possible.
-
-    Parameters:
-        text - The text to set.
-        infoSignAndCrypt - _Optional_. Informations about a signature into a decrypted text.
-    */
-	set: function(text, infoSignAndCrypt) {
-		/* if the option "always show in a new window" is checked */
-		var key = "extensions.firegpg.result_always_in_new_window";
-		var prefs = Components.classes["@mozilla.org/preferences-service;1"].
-							   getService(Components.interfaces.nsIPrefBranch);
-		if(prefs.getPrefType(key) == prefs.PREF_BOOL) {
-			if(prefs.getBoolPref(key)) {
-				/* text the text */
-				FireGPG.Misc.showText(text,undefined,undefined,undefined,infoSignAndCrypt);
-				return;
-			}
-		}
-
-		// We verify if selection is editable
-		if(this.isEditable()) {
-			// Get the focused element
-			var focused = document.commandDispatcher.focusedElement;
-			var value = focused.value;
-			var startPos = focused.selectionStart;
-			var endPos = focused.selectionEnd;
-			var chaine = focused.value;
-
-			// We create the new string and replace it into the focused element
-			focused.value = chaine.substring(0, startPos) + text + chaine.substring(endPos, chaine.length);
-
-			// We select the new text.
-			focused.selectionStart = startPos;
-			focused.selectionEnd = startPos + text.length ;
-
-			//We need to alert the user if a valid sign was found !
-			if (infoSignAndCrypt != undefined)
-			{
-				alert(document.getElementById("firegpg-strings").getString("validSignInCrypt") + " " + infoSignAndCrypt);
-			}
-		}
 	}
 }

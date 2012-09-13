@@ -392,16 +392,9 @@ FireGPG.Core = {
 		}
 
 
-        if (autoSetMode) {
-			// We test if the selection is editable :
-			if(FireGPG.Selection.isEditable()) {
-				// If yes, we edit this selection with the new text
-				FireGPG.Selection.set(result.output);
-			}
-			else //Else, we show a windows with the result
-				FireGPG.Misc.showText(result.output);
-		}
-
+		//always show text in new Window
+		FireGPG.Misc.showText(result.output);
+		
         if (fileMode) {
             alert(i18n.getString("operationOnFileDone"));
         }
@@ -966,18 +959,9 @@ FireGPG.Core = {
             return returnObject;
 		}
 
-
-        if (autoSetMode) {
-			// We test if the selection is editable :
-			if(FireGPG.Selection.isEditable()) {
-				// If yes, we edit this selection with the new text
-				FireGPG.Selection.set(result.output);
-			}
-			else //Else, we show a windows with the result
-				FireGPG.Misc.showText(result.output);
-		}
-
-
+		//always show result in new window
+		FireGPG.Misc.showText(result.output);
+		
         if (fileMode) {
             alert(i18n.getString("operationOnFileDone"));
         }
@@ -1175,18 +1159,9 @@ FireGPG.Core = {
             return returnObject;
 		}
 
-
-        if (autoSetMode) {
-			// We test if the selection is editable :
-			if(FireGPG.Selection.isEditable()) {
-				// If yes, we edit this selection with the new text
-				FireGPG.Selection.set(result.output);
-			}
-			else //Else, we show a windows with the result
-				FireGPG.Misc.showText(result.output);
-		}
-
-
+		//always show result in new window
+		FireGPG.Misc.showText(result.output);
+		
         if (fileMode) {
             alert(i18n.getString("operationOnFileDone"));
         }
@@ -1320,7 +1295,6 @@ FireGPG.Core = {
         if (!fileMode)
             var results = this.layers(text,0, charset);
         else {
-
             results = new Array(this.layerverify(undefined,undefined,undefined, undefined,undefined, fileMode, fileFrom, fileSig, undefined, fileDataForSign, fromDTA));
         }
 
@@ -1360,7 +1334,7 @@ FireGPG.Core = {
             }
 
             if (!silent)
-                alert(resulttxt);
+                FireGPG.Misc.showText(text,undefined,undefined,undefined,resulttxt);
 
             returnObject.signsresulttext = resulttxt;
 
@@ -1375,7 +1349,6 @@ FireGPG.Core = {
 
             if (results[0].notTrusted)
                 returnObject.notTrusted  = results[0].notTrusted;
-
 
             returnObject.result = FireGPG.Const.Results.SUCCESS;
 
@@ -1435,8 +1408,6 @@ FireGPG.Core = {
                 if( firstPosition!=-1 && lastPosition!=-1) {
                         division++;
                         var divisiontxt=text.substring(firstPosition,lastPosition+endtxt.length+1);
-
-
 
                         var tmpverifyresult = this.layerverify(divisiontxt,layer,division, charset);
                         resultss[resultss.length] = tmpverifyresult;
@@ -1867,18 +1838,9 @@ FireGPG.Core = {
 
 		}
 
-
-        if (autoSetMode) {
-            //We test is the selection in editable :
-            if(FireGPG.Selection.isEditable()) {
-                //If yes, we edit this selection with the new text
-                FireGPG.Selection.set(result.output,returnObject.signresulttext);
-            }  else {
-                //Else, we show a windows with the result
-                FireGPG.Misc.showText(result.output,undefined,undefined,undefined,returnObject.signresulttext);
-            }
-        }
-
+		//always show result in new window
+		FireGPG.Misc.showText(result.output,undefined,undefined,undefined,returnObject.signresulttext);
+		
         if (fileMode) {
             alert(i18n.getString("operationOnFileDone"));
         }

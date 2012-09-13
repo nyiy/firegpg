@@ -58,7 +58,7 @@ under the terms of any one of the MPL, the GPL or the LGPL.
 
   <description control="text" id="description" value="default description"/>
   <textbox id="text" multiline="true" rows="25" cols="80" flex="1"/>
-  <label id="dcryptsignresult" style="display: none;" />
+  <description id="dcryptsignresult" style="display: none; width: 400px;"></description>
 
   <hbox id="buttons-box">
     <vbox>
